@@ -20,7 +20,10 @@ def sessions():
 def on_join_record():
     room = 'recorder'
     join_room(room)
-    # send('entered the recorder room', room=room)
+    
+    #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
+    #deviceName = #what ever this is supposed to be
+    
     print('recorder registered')
 
 @socketio.on('join player')
