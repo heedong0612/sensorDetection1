@@ -25,7 +25,7 @@ public class ActivatePlayer extends AppCompatActivity {
 
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
-        mSocket.emit("join player");
+        mSocket.emit("join_player");
 
 //        mp = MediaPlayer.create(context, R.raw.song);
 //        play = findViewById(R.id.button_player);
@@ -85,6 +85,6 @@ public class ActivatePlayer extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        stopPlayer();
+//        stopPlayer();
     }
 }
