@@ -37,7 +37,13 @@ public class ConnectRecorder extends AppCompatActivity {
     private Emitter.Listener onRecord = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            letsRecord();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run(){
+                    letsRecord();
+                }
+            });
+
         }
     };
 }

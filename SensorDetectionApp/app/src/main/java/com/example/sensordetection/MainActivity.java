@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         TextView textView = (TextView) findViewById(R.id.deviceNameTitle);
+
         String deviceName = android.os.Build.MODEL;
         textView.setText(deviceName); //set text for text view
 

@@ -16,7 +16,7 @@ socketio = SocketIO(app)
 def sessions():
     return render_template('session.html')
 
-@socketio.on('join recorder')
+@socketio.on('join recorder') #recieves a 'join recorder' event (emit) from android device
 def on_join_record():
     room = 'recorder'
     join_room(room)
