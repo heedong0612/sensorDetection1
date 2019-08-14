@@ -17,14 +17,14 @@ def sessions():
     return render_template('session.html')
 
 @socketio.on('join recorder') #recieves a 'join recorder' event (emit) from android device
-def on_join_record():
+def on_join_record(deviceName):
     room = 'recorder'
     join_room(room)
     
     #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
     #deviceName = #what ever this is supposed to be
     
-    print('recorder registered')
+    print(deviceName + ' recorder registered')
 
 @socketio.on('join player')
 def on_join_player():
