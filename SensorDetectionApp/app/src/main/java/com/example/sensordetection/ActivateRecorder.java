@@ -31,33 +31,36 @@ import java.util.Date;
 public class ActivateRecorder extends AppCompatActivity {
 
     private static final String LOG_TAG = "AudioRecordTest";
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+//    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String fileName = null;
     private MediaRecorder recorder = null;
     private Socket mSocket;
 
     private MediaPlayer   player = null;
 
-    // Requesting permission to RECORD_AUDIO
-    private boolean permissionToRecordAccepted = false;
-    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case REQUEST_RECORD_AUDIO_PERMISSION:
-                permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                break;
-        }
-        if (!permissionToRecordAccepted ) finish();
-
-    }
+//    //Requesting permission to RECORD_AUDIO
+//    private boolean permissionToRecordAccepted = false;
+//    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode){
+//            case REQUEST_RECORD_AUDIO_PERMISSION:
+//                permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                break;
+//        }
+//        if (!permissionToRecordAccepted ) finish();
+//
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activate_recorder);
+
+//        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
 
@@ -65,7 +68,6 @@ public class ActivateRecorder extends AppCompatActivity {
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss'.3gp'").format(new Date());
         fileName += "/audiorecordtest_";
         fileName += timestamp;
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         startRecording();
         //String deviceName = android.os.Build.MODEL;     // added 08/12
