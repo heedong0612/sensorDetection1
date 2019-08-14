@@ -55,7 +55,11 @@ def on_waduup():
 
 @socketio.on('Send File')
 def convert_file_to_wav(byteArr):
-    print('conver_file_to_wav')
+    #print('type: ')
+    #print(type(byteArr[0]))
+    #for stuff in byteArr:
+    #    print(stuff)
+    #print(byteArr[0])
     music = []
     for i in range(len(byteArr)):
         music.append(int.from_bytes(byteArr[i], 'big'))
