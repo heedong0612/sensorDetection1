@@ -4,13 +4,15 @@ import eventlet
 import eventlet.wsgi
 
 # import soundcard as sc
-# import numpy as np
+import numpy as np
 # import waveflask
-# from scipy.io.wavfile import read
+from scipy.io.wavfile import read, write
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'testkey123'
 socketio = SocketIO(app)
+deviceArr = []
+
 
 @app.route('/')
 def sessions():
@@ -49,6 +51,18 @@ def on_stop_collection():
 @socketio.on('hey waddup')
 def on_waduup():
     print('i\'m fine bro')
+
+
+@socketio.on('Send File')
+def convert_file_to_wav(byteArr):
+    music = []
+    for i in range(len(byteArr)):
+        music.append(int.from_bytes(byteArr[i], 'big'))
+    
+    music_np = np.array(music)
+    fs =  40000
+    write('whatever.wav', fs, music_np)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=8090)
