@@ -11,12 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ActivatePlayer extends AppCompatActivity {
 
     private Socket mSocket;
-
-//    Context context = this;
     MediaPlayer player;
-
-//    Button player;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +21,6 @@ public class ActivatePlayer extends AppCompatActivity {
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.emit("join player");
-
-//        mp = MediaPlayer.create(context, R.raw.song);
-//        play = findViewById(R.id.button_player);
-//        play.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v) {
-//                try {
-//                    if(mp.isPlaying()) {
-//                        mp.stop();
-//                        mp.release();
-//                        mp = MediaPlayer.create(context, R.raw.song);
-//                        mp.start();
-//                    }else{
-//                        mp.start();
-//                    }
-//                } catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        });
-//        mp.release();
     }
 
     public void play(View v) {
@@ -56,6 +30,7 @@ public class ActivatePlayer extends AppCompatActivity {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     stopPlayer();
+                    mSocket.emit("stop collection");
                 }
             });
         }
@@ -71,6 +46,7 @@ public class ActivatePlayer extends AppCompatActivity {
 
     public void stop(View v) {
         stopPlayer();
+        mSocket.emit("stop collection");
     }
 
     private void stopPlayer() {
@@ -79,7 +55,6 @@ public class ActivatePlayer extends AppCompatActivity {
             player = null;
             Toast.makeText(this, "MediaPlayer released", Toast.LENGTH_SHORT).show();
         }
-        mSocket.emit("stop collection");
     }
 
     @Override
