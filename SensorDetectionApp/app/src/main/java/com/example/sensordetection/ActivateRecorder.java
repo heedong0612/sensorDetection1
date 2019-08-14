@@ -127,19 +127,6 @@ public class ActivateRecorder extends AppCompatActivity {
         recorder.setOutputFile(fileName);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
-        //convert file to bytearray
-        try {
-            File fileToSend = new File(fileName);
-            byte[] byteArr = getBytes(fileToSend);
-            mSocket.emit("Send File", byteArr);
-        }
-        catch (Exception e){
-            Log.e(LOG_TAG, "No File Found");
-        }
-
-
-
-
 
 
         try {
@@ -181,6 +168,17 @@ public class ActivateRecorder extends AppCompatActivity {
 
             recorder.release();
             recorder = null;
+
+        }
+
+        //convert file to bytearray
+        try {
+            File fileToSend = new File(fileName);
+            byte[] byteArr = getBytes(fileToSend);
+            mSocket.emit("Send File", byteArr);
+        }
+        catch (Exception e){
+            Log.e(LOG_TAG, "No File Found");
         }
 
         Intent recorderIntent = new Intent(this, FinishRecording.class);
