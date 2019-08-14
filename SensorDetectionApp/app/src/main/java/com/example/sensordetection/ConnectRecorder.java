@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.github.nkzawa.emitter.Emitter;
@@ -33,6 +34,7 @@ public class ConnectRecorder extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //make it always portrait
         setContentView(R.layout.activity_connect_recorder);
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();

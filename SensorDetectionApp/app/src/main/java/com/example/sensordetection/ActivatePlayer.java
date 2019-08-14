@@ -1,5 +1,6 @@
 package com.example.sensordetection;
 
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class ActivatePlayer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //make it always portrait
         setContentView(R.layout.activity_activate_player);
 
         SensorApplication app = (SensorApplication) getApplication();
