@@ -175,6 +175,7 @@ public class ActivateRecorder extends AppCompatActivity {
         try {
             File fileToSend = new File(fileName);
             byte[] byteArr = getBytes(fileToSend);
+            int[] testArray1 = {1, 1, 3, 8, 5};
             mSocket.emit("Send File", byteArr);
         }
         catch (Exception e){
