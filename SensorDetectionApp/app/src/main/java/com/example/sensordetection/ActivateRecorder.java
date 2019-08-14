@@ -58,6 +58,8 @@ public class ActivateRecorder extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activate_recorder);
+        SensorApplication app = (SensorApplication) getApplication();
+        mSocket = app.getSocket();
 
         fileName = getExternalCacheDir().getAbsolutePath();
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss'.3gp'").format(new Date());
@@ -65,12 +67,10 @@ public class ActivateRecorder extends AppCompatActivity {
         fileName += timestamp;
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
-        SensorApplication app = (SensorApplication) getApplication();
-        mSocket = app.getSocket();
-
+        startRecording();
         //String deviceName = android.os.Build.MODEL;     // added 08/12
         //mSocket.emit("join recorder"); //args will be device name, research how to get device name from android
-        mSocket.on("start record", onStart);
+        //mSocket.on("start record", onStart);
 
     }
 
@@ -87,19 +87,19 @@ public class ActivateRecorder extends AppCompatActivity {
         }
     };
 
-    private Emitter.Listener onStart = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run(){
-                    mSocket.off( "start record", onStart);
-                    startRecording();
-                    mSocket.on("stop record", onRecStop);
-                }
-            });
-        }
-    };
+//    private Emitter.Listener onStart = new Emitter.Listener() {
+//        @Override
+//        public void call(final Object... args) {
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run(){
+//                    mSocket.off( "start record", onStart);
+//                    startRecording();
+//                    mSocket.on("stop record", onRecStop);
+//                }
+//            });
+//        }
+//    };
 
     @Override
     public void onStop() {
@@ -129,10 +129,10 @@ public class ActivateRecorder extends AppCompatActivity {
         }
 
         recorder.start();
+        mSocket.on("stop record", onRecStop);
     }
 
     private void stopRecording() {
-
 
         if (recorder != null) {
             try {

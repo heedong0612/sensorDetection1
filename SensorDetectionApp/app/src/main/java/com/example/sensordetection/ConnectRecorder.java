@@ -30,6 +30,7 @@ public class ConnectRecorder extends AppCompatActivity {
     }
 
     private void letsRecord() {
+        mSocket.off("start record", onRecord);
         Intent recorderIntent = new Intent(this, ActivateRecorder.class);
         startActivity(recorderIntent);
     }
