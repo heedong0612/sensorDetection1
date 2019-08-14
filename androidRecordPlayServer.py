@@ -27,11 +27,11 @@ def on_join_record(deviceName):
     print(deviceName + ' recorder registered')
 
 @socketio.on('join player')
-def on_join_player():
+def on_join_player(deviceName):
     room = 'player'
     join_room(room)
     # send('entered the player room', room=room)
-    print('player registered')
+    print(deviceName + ' registered as player')
 
 @socketio.on('start collection')
 def on_start_collection():
