@@ -60,6 +60,7 @@ def convert_file_to_wav(byteArr):
         music.append(int.from_bytes(byteArr[i], 'big'))
     
     music_np = np.array(music)
+    print(music_np)
     fs =  40000
     write('whatever.wav', fs, music_np)
 
