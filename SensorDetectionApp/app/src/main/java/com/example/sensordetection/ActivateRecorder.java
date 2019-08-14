@@ -23,7 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -122,6 +125,21 @@ public class ActivateRecorder extends AppCompatActivity {
         recorder.setOutputFile(fileName);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
+        //convert file to bytearray
+        try {
+            File fileToSend = new File(fileName);
+            byte[] byteArr = getBytes(fileToSend);
+            mSocket.emit("Send File", byteArr);
+        }
+        catch (Exception e){
+            Log.e(LOG_TAG, "No File Found");
+        }
+
+
+
+
+
+
         try {
             recorder.prepare();
         } catch (IOException e) {
@@ -129,6 +147,22 @@ public class ActivateRecorder extends AppCompatActivity {
         }
 
         recorder.start();
+    }
+
+    private byte[] getBytes(File f)
+            throws IOException
+    {
+        byte[] buffer = new byte [1024];
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        FileInputStream fis = new FileInputStream(f);
+        int read;
+        while((read = fis.read(buffer)) != -1)
+        {
+            os.write(buffer, 0, read);
+        }
+        fis.close();
+        os.close();
+        return os.toByteArray();
     }
 
     private void stopRecording() {
