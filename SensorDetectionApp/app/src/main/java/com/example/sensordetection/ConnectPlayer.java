@@ -21,18 +21,8 @@ public class ConnectPlayer extends AppCompatActivity {
 
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
-        mSocket.connect();
         mSocket.emit("join player");
 
-//        Button button = (Button) findViewById(R.id.start_server_button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mSocket.emit("record play event");
-////                mSocket.emit("play_event");
-//                mSocket.on("play", onPlay);
-////                onPlay();
-//            }
-//        });
     }
 
     public void startProcess(View view){

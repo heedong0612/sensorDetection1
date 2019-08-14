@@ -14,7 +14,6 @@ public class ConnectRecorder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_recorder);
-
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.connect();
@@ -27,7 +26,6 @@ public class ConnectRecorder extends AppCompatActivity {
         super.onDestroy();
         mSocket.off("start record", onRecord);
     }
-
 
     private void letsRecord() {
         Intent recorderIntent = new Intent(this, ActivateRecorder.class);
@@ -43,7 +41,6 @@ public class ConnectRecorder extends AppCompatActivity {
                     letsRecord();
                 }
             });
-
         }
     };
 }

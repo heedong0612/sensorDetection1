@@ -33,7 +33,6 @@ public class ActivateRecorder extends AppCompatActivity {
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String fileName = null;
-    private static String filePath = null;
     private MediaRecorder recorder = null;
     private Socket mSocket;
 
@@ -60,39 +59,27 @@ public class ActivateRecorder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activate_recorder);
 
-        // Record to the external cache directory for visibility
-        //fileName = Environment.getDataDirectory().getAbsolutePath() + "/recording123.aac";
-
         fileName = getExternalCacheDir().getAbsolutePath();
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss'.3gp'").format(new Date());
-
         fileName += "/audiorecordtest_";
         fileName += timestamp;
-//        fileName += ".3gp";
-
-        //filePath = Environment.getDataDirectory().getAbsolutePath();
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
-        mSocket.connect();
 
         String deviceName = android.os.Build.MODEL;     // added 08/12
         mSocket.emit("join recorder"); //args will be device name, research how to get device name from android
-
         mSocket.on("start record", onStart);
-
 
     }
 
     private Emitter.Listener onRecStop = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-//            Toast.makeText(getApplicationContext(), "HELLO Jer", Toast.LENGTH_LONG).show();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run(){
-                    //mSocket.emit("hey waddup");
                     stopRecording();
                 }
             });
@@ -103,12 +90,12 @@ public class ActivateRecorder extends AppCompatActivity {
     private Emitter.Listener onStart = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-//            Toast.makeText(getApplicationContext(), "HELLO Jer", Toast.LENGTH_LONG).show();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run(){
-                    //mSocket.emit("hey waddup");
+                    mSocket.off( "start record", onStart);
                     startRecording();
+                    mSocket.on("stop record", onRecStop);
                 }
             });
         }
@@ -128,26 +115,7 @@ public class ActivateRecorder extends AppCompatActivity {
         }
     }
 
-//    public void startPlaying(View v) {
-//        player = new MediaPlayer();
-//
-//        try {
-//            player.setDataSource(fileName);
-//            player.prepare();
-//            player.start();
-//        } catch (IOException e) {
-//            Log.e(LOG_TAG, "player prepare() failed");
-//        }
-//    }
-
-//    public void stopPlaying(View v) {
-//        player.stop();
-//        player.release();
-//        player = null;
-//    }
-
     private void startRecording() {
-        mSocket.off( "start record", onStart);
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -161,8 +129,6 @@ public class ActivateRecorder extends AppCompatActivity {
         }
 
         recorder.start();
-        mSocket.on("stop record", onRecStop);
-
     }
 
     private void stopRecording() {
@@ -180,13 +146,6 @@ public class ActivateRecorder extends AppCompatActivity {
             recorder.release();
             recorder = null;
         }
-
-
-
-
-//        recorder.stop();
-//        recorder.release();
-//        recorder = null;
 
         Intent recorderIntent = new Intent(this, FinishRecording.class);
         startActivity(recorderIntent);

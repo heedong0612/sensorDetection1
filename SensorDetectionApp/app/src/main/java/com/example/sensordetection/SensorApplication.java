@@ -14,6 +14,7 @@ public class SensorApplication extends Application {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+        mSocket.connect();
     }
 
     public Socket getSocket() {
