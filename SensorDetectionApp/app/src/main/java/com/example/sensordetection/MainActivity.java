@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView textView = (TextView) findViewById(R.id.deviceNameTitle);
 
-        String deviceName = android.os.Build.MODEL;
+        String deviceName = android.os.Build.MODEL; //PRODUCT; //MODEL
         textView.setText(deviceName); //set text for text view
 
         if (android.os.Build.VERSION.SDK_INT > 9) //I think this has to do something with android version ?
