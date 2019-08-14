@@ -76,7 +76,9 @@ public class ActivateRecorder extends AppCompatActivity {
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.connect();
-        mSocket.emit("join recorder");
+
+        String deviceName = android.os.Build.MODEL;     // added 08/12
+        mSocket.emit("join recorder"); //args will be device name, research how to get device name from android
 
         mSocket.on("start record", onStart);
 
@@ -90,7 +92,7 @@ public class ActivateRecorder extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run(){
-                    mSocket.emit("hey waddup");
+                    //mSocket.emit("hey waddup");
                     stopRecording();
                 }
             });
@@ -105,11 +107,10 @@ public class ActivateRecorder extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run(){
-                    mSocket.emit("hey waddup");
+                    //mSocket.emit("hey waddup");
                     startRecording();
                 }
             });
-
         }
     };
 
@@ -165,30 +166,27 @@ public class ActivateRecorder extends AppCompatActivity {
     }
 
     private void stopRecording() {
-        /*
 
 
         if (recorder != null) {
-            //File recording_file = new File(filePath + "/recording123.aac" );
             try {
                 recorder.stop();
             } catch (RuntimeException stopException) {
-                //recording_file.delete();
+//                recording_file.delete();
                 recorder.reset();
                 return;
             }
-            recorder.reset();
-//            recorder.release();
-//            recorder = null;
-        }
-//        testing output
-//        startPlaying();
-//        stopPlaying();
-        */
 
-        recorder.stop();
-        recorder.release();
-        recorder = null;
+            recorder.release();
+            recorder = null;
+        }
+
+
+
+
+//        recorder.stop();
+//        recorder.release();
+//        recorder = null;
 
         Intent recorderIntent = new Intent(this, FinishRecording.class);
         startActivity(recorderIntent);
