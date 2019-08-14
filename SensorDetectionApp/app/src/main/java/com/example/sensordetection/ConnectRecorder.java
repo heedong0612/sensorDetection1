@@ -18,7 +18,7 @@ public class ConnectRecorder extends AppCompatActivity {
         mSocket = app.getSocket();
         mSocket.connect();
 
-        String deviceName = "Hello World";
+        String deviceName = android.os.Build.MODEL;
         mSocket.emit("join recorder", deviceName);
         mSocket.on("start record", onRecord);
     }

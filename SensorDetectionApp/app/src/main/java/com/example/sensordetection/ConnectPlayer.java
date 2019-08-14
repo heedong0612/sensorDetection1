@@ -22,7 +22,7 @@ public class ConnectPlayer extends AppCompatActivity {
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
 
-        String deviceName = "Player1";
+        String deviceName = android.os.Build.MODEL;
         mSocket.emit("join player", deviceName);
 
     }
