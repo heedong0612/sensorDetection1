@@ -68,8 +68,8 @@ public class ActivateRecorder extends AppCompatActivity {
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
 
-        String deviceName = android.os.Build.MODEL;     // added 08/12
-        mSocket.emit("join recorder"); //args will be device name, research how to get device name from android
+        //String deviceName = android.os.Build.MODEL;     // added 08/12
+        //mSocket.emit("join recorder"); //args will be device name, research how to get device name from android
         mSocket.on("start record", onStart);
 
     }

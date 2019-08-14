@@ -17,7 +17,9 @@ public class ConnectRecorder extends AppCompatActivity {
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.connect();
-        mSocket.emit("join recorder");
+
+        String deviceName = "Hello World";
+        mSocket.emit("join recorder", deviceName);
         mSocket.on("start record", onRecord);
     }
 
