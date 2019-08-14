@@ -44,7 +44,7 @@ def on_start_collection():
 @socketio.on('stop collection')
 def on_stop_collection():
     emit('stop record', room='recorder')
-#print('stop recording')
+    print('stop recording')
 
 @socketio.on('hey waddup')
 def on_waduup():
