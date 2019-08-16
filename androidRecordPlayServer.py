@@ -80,3 +80,9 @@ if __name__ == '__main__':
 #    eventlet.wsgi.server(eventlet.listen(('', 8090)), app)
 
 
+@socketio.on('ask for button')
+def on_ask_for_button():
+    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
+    print("room Pop: ", roomPopulation)
+    if roomPopulation > 0:
+        emit('enable button', room='player')
