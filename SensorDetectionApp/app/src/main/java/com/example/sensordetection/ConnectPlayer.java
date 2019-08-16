@@ -16,13 +16,14 @@ public class ConnectPlayer extends AppCompatActivity {
 
     private Socket mSocket;
     private int numRecorder = 0; //keep track of the number of recorders
-    Button startCollection = findViewById(R.id.start_server_button);
+    Button startCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //make it always portrait
         setContentView(R.layout.activity_connect_player);
+        startCollection = findViewById(R.id.start_server_button);
         startCollection.setEnabled(false);
 
         SensorApplication app = (SensorApplication) getApplication();
