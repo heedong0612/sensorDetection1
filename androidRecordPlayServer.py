@@ -38,12 +38,12 @@ def on_join_player(deviceName):
     # send('entered the player room', room=room)
     print(deviceName + ' registered as player')
 
-@socketio.on('ask for button')
-def on_ask_for_button():
-    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
-    print(roomPopulation)
-    if roomPopulation > 0:
-        emit('enable button', room='player')
+#@socketio.on('ask for button')
+#def on_ask_for_button():
+#    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
+#    print(roomPopulation)
+#    if roomPopulation > 0:
+#        emit('enable button', room='player')
 
 @socketio.on('start collection')
 def on_start_collection():
@@ -67,17 +67,39 @@ def on_waduup():
 def convert_file_to_wav(byteArr):
     #print('type: ')
     #print(type(byteArr[0]))
-    #for stuff in byteArr:
-    #    print(stuff)
+    #music = []
+        #for stuff in byteArr:
+#music.append(stuff)
     #print(byteArr[0])
-    music = []
-    for i in range(len(byteArr)):
-        music.append(int.from_bytes(byteArr[i], 'big'))
-    
-    music_np = np.array(music)
-    print(music_np)
-    fs =  40000
-    write('whatever.wav', fs, music_np)
+    #binData  = ''.join(map(lambda x: chr(x % 256), music))
+#print(binData)
+
+
+#print(byteArr)
+    with open("recording.wav", "wb") as binary_file:
+    # Write text or bytes to the file
+        binary_file.write("".encode('utf8'))
+        num_bytes_written = binary_file.write(byteArr)
+    print("Wrote %d bytes." % num_bytes_written)
+#
+#    music = []
+#    for i in range(len(byteArr)):
+#        music.append(int.from_bytes(byteArr[i], 'big'))
+#
+#    print(music)
+
+#music_np = np.array(music)
+#print(music_np)
+#    fs =  40000
+#    write('whatever.wav', fs, music_np)
+
+@socketio.on('ask for button')
+def on_ask_for_button():
+    # roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
+    roomPopulation = len(socketio.adapter.rooms['recorder'])
+    print(roomPopulation)
+    if roomPopulation > 0:
+        emit('enable button', room='player')
 
 
 if __name__ == '__main__':
@@ -86,9 +108,3 @@ if __name__ == '__main__':
 #    eventlet.wsgi.server(eventlet.listen(('', 8090)), app)
 
 
-@socketio.on('ask for button')
-def on_ask_for_button():
-    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
-    print("room Pop: ", roomPopulation)
-    if roomPopulation > 0:
-        emit('enable button', room='player')
