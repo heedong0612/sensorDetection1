@@ -30,13 +30,17 @@ def on_join_record(deviceName):
     #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
     #deviceName = #what ever this is supposed to be
     print(deviceName + ' recorder registered')
-    print('total recorder: ', recorderPopulation)
+    print('total recorder: ', recordPopulation)
 
 @socketio.on('leave recorder')
 def on_leave_record():
     global recordPopulation
     recordPopulation -= 1
+    recordPopulation = recordPopulation if recordPopulation > 0 else 0
     leave_room('recorder')
+    if recordPopulation == 0:
+        emit('disable button', room='player')
+    print('after leaving, recorder: ', recordPopulation)
 
 @socketio.on('join player')
 def on_join_player(deviceName):
@@ -48,10 +52,12 @@ def on_join_player(deviceName):
     print('total player: ', playerPopulation)
 
 @socketio.on('leave player')
-def on_leave_record():
+def on_leave_player():
     global playerPopulation
     playerPopulation -= 1
+    playerPopulation = playerPopulation if playerPopulation > 0 else 0
     leave_room('player')
+    print('after leaving, player: ', playerPopulation)
 
 @socketio.on('ask for button')
 def on_ask_for_button():

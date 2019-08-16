@@ -33,6 +33,7 @@ public class ConnectPlayer extends AppCompatActivity {
         mSocket.emit("ask for button");
 
         mSocket.on("enable button", enableButton);
+        mSocket.on("disable button", disableButton);
     }
 
     public void startProcess(View view){
@@ -47,15 +48,11 @@ public class ConnectPlayer extends AppCompatActivity {
     }
 
     private void enableStartButton(){
-        mSocket.off("enable button", enableButton);
         startCollection.setEnabled(true);
-        mSocket.on("disable button", disableButton);
     }
 
     private void disableStartButton(){
-        mSocket.off("disable button", disableButton);
         startCollection.setEnabled(false);
-        mSocket.on("enable button", enableButton);
     }
 
     private Emitter.Listener disableButton = new Emitter.Listener() {
