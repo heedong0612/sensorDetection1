@@ -1,6 +1,7 @@
 package com.example.sensordetection;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -14,10 +15,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        TextView textView = (TextView) findViewById(R.id.deviceNameTitle);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //to make it start on portrait
 
-        String deviceName = android.os.Build.MODEL;
+        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.disable_android_orientation_change);
+
+        //Update device name here
+        TextView textView = (TextView) findViewById(R.id.deviceNameTitle);
+        String deviceName = android.os.Build.MODEL; //PRODUCT; //MODEL
         textView.setText(deviceName); //set text for text view
 
         if (android.os.Build.VERSION.SDK_INT > 9) //I think this has to do something with android version ?
