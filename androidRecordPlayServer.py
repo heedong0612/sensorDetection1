@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'testkey123'
 socketio = SocketIO(app)
 
-# recorderConnected = False
+recordPopulation = 0
+playerPopulation = 0
 
 deviceArr = []
 
@@ -22,27 +23,33 @@ def sessions():
 
 @socketio.on('join recorder') #recieves a 'join recorder' event (emit) from android device
 def on_join_record(deviceName):
-    room = 'recorder'
-    join_room(room)
-    # recorderConnected = True
+    join_room('recorder')
+    recordPopulation += 1
     emit('enable button', room='player')
     #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
     #deviceName = #what ever this is supposed to be
-    
     print(deviceName + ' recorder registered')
+
+@socketio.on('leave recorder')
+def on_leave_record():
+    recordPopulation -= 1
+    leave_room('recorder')
 
 @socketio.on('join player')
 def on_join_player(deviceName):
     room = 'player'
     join_room(room)
-    # send('entered the player room', room=room)
+    playerPopulation += 1
     print(deviceName + ' registered as player')
+
+@socketio.on('leave player')
+def on_leave_record():
+    playerPopulation -= 1
+    leave_room('player')
 
 @socketio.on('ask for button')
 def on_ask_for_button():
-    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
-    print(roomPopulation)
-    if roomPopulation > 0:
+    if recordPopulation > 0:
         emit('enable button', room='player')
 
 @socketio.on('start collection')

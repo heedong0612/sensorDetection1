@@ -101,6 +101,7 @@ public class ConnectPlayer extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mSocket.emit("leave player");
         mSocket.off("start play", onPlay);
         mSocket.off("enable button", enableButton);
     }
