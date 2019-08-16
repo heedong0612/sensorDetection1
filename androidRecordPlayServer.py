@@ -11,9 +11,10 @@ from scipy.io.wavfile import read, write
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'testkey123'
 socketio = SocketIO(app)
-recorderConnected = False
-deviceArr = []
 
+# recorderConnected = False
+
+deviceArr = []
 
 @app.route('/')
 def sessions():
@@ -23,7 +24,7 @@ def sessions():
 def on_join_record(deviceName):
     room = 'recorder'
     join_room(room)
-    recorderConnected = True
+    # recorderConnected = True
     emit('enable button', room='player')
     #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
     #deviceName = #what ever this is supposed to be
@@ -35,9 +36,14 @@ def on_join_player(deviceName):
     room = 'player'
     join_room(room)
     # send('entered the player room', room=room)
-    if recorderConnected:
-        emit('enable button', room='player')
     print(deviceName + ' registered as player')
+
+@socketio.on('ask for button')
+def on_ask_for_button():
+    roomPopulation = len(socketio.sockets.adapter.rooms['recorder'])
+    print(roomPopulation)
+    if roomPopulation > 0:
+        emit('enable button', room='player')
 
 @socketio.on('start collection')
 def on_start_collection():

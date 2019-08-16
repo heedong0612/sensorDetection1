@@ -31,6 +31,7 @@ public class ConnectPlayer extends AppCompatActivity {
 
         String deviceName = android.os.Build.MODEL;
         mSocket.emit("join player", deviceName);
+        mSocket.emit("ask for button");
 
         mSocket.on("enable button", enableButton);
 
@@ -42,6 +43,7 @@ public class ConnectPlayer extends AppCompatActivity {
     }
 
     private void letsPlay() {
+        mSocket.off("start play", onPlay);
         Intent playerIntent = new Intent(this, ActivatePlayer.class);
         startActivity(playerIntent);
     }
@@ -100,6 +102,7 @@ public class ConnectPlayer extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mSocket.off("start play", onPlay);
+        mSocket.off("enable button", enableButton);
     }
 
 
