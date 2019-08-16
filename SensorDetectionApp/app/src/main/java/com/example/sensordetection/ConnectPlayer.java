@@ -15,7 +15,7 @@ import com.github.nkzawa.socketio.client.Socket;
 public class ConnectPlayer extends AppCompatActivity {
 
     private Socket mSocket;
-    private int numRecorder = 0; //keep track of the number of recorders
+//    private int numRecorder = 0; //keep track of the number of recorders
     Button startCollection;
 
     @Override
@@ -53,18 +53,18 @@ public class ConnectPlayer extends AppCompatActivity {
         startCollection.setEnabled(true);
     }
 
-    //added for update08/14
-    //update num recorder
-    private void updateNumRecorder()
-    {
-        TextView numRecorderView = (TextView) findViewById(R.id.numRecorderView);
-        numRecorderView.setText("Number of connected recorders: " + numRecorder);
-    }
+//    added for update08/14
+//    update num recorder
+//    private void updateNumRecorder()
+//    {
+//        TextView numRecorderView = (TextView) findViewById(R.id.numRecorderView);
+//        numRecorderView.setText("Number of connected recorders: " + numRecorder);
+//    }
 
-    public void updateNumber()
-    {
-        mSocket.on("add recorder", updateNumListener); //must update server to work with this
-    }
+//    public void updateNumber()
+//    {
+//        mSocket.on("add recorder", updateNumListener); //must update server to work with this
+//    }
 
 
     private Emitter.Listener onPlay = new Emitter.Listener() {
@@ -91,12 +91,12 @@ public class ConnectPlayer extends AppCompatActivity {
         }
     };
 
-    private Emitter.Listener updateNumListener = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args){
-            updateNumRecorder();
-        }
-    };
+//    private Emitter.Listener updateNumListener = new Emitter.Listener() {
+//        @Override
+//        public void call(final Object... args){
+//            updateNumRecorder();
+//        }
+//    };
 
     @Override
     protected void onDestroy() {
