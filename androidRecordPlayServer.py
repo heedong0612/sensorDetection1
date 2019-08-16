@@ -24,14 +24,17 @@ def sessions():
 @socketio.on('join recorder') #recieves a 'join recorder' event (emit) from android device
 def on_join_record(deviceName):
     join_room('recorder')
+    global recordPopulation
     recordPopulation += 1
     emit('enable button', room='player')
     #from ActivateRecorder.java (80-81); emits 'join recorder' with an argument of deviceName 
     #deviceName = #what ever this is supposed to be
     print(deviceName + ' recorder registered')
+    print('total recorder: ', recorderPopulation)
 
 @socketio.on('leave recorder')
 def on_leave_record():
+    global recordPopulation
     recordPopulation -= 1
     leave_room('recorder')
 
@@ -39,16 +42,20 @@ def on_leave_record():
 def on_join_player(deviceName):
     room = 'player'
     join_room(room)
+    global playerPopulation
     playerPopulation += 1
     print(deviceName + ' registered as player')
+    print('total player: ', playerPopulation)
 
 @socketio.on('leave player')
 def on_leave_record():
+    global playerPopulation
     playerPopulation -= 1
     leave_room('player')
 
 @socketio.on('ask for button')
 def on_ask_for_button():
+    global recordPopulation
     if recordPopulation > 0:
         emit('enable button', room='player')
 
@@ -72,20 +79,11 @@ def on_waduup():
 
 @socketio.on('Send File')
 def convert_file_to_wav(byteArr):
-    #print('type: ')
-    #print(type(byteArr[0]))
-    #for stuff in byteArr:
-    #    print(stuff)
-    #print(byteArr[0])
-    music = []
-    for i in range(len(byteArr)):
-        music.append(int.from_bytes(byteArr[i], 'big'))
-    
-    music_np = np.array(music)
-    print(music_np)
-    fs =  40000
-    write('whatever.wav', fs, music_np)
-
+    with open("recording.wav", "wb") as binary_file:
+        # Write text or bytes to the file
+        binary_file.write("".encode('utf8'))
+        num_bytes_written = binary_file.write(byteArr)
+    print("Wrote %d bytes." % num_bytes_written)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=8090)
