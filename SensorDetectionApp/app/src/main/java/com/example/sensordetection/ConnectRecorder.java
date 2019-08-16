@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import com.github.nkzawa.emitter.Emitter;
@@ -27,12 +28,12 @@ public class ConnectRecorder extends AppCompatActivity {
                 break;
         }
         if (!permissionToRecordAccepted ) finish();
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //make it always portrait
         setContentView(R.layout.activity_connect_recorder);
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
@@ -40,12 +41,6 @@ public class ConnectRecorder extends AppCompatActivity {
         String deviceName = android.os.Build.MODEL;
         mSocket.emit("join recorder", deviceName);
         mSocket.on("start record", onRecord);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mSocket.off("start record", onRecord);
     }
 
     private void letsRecord() {
@@ -65,4 +60,11 @@ public class ConnectRecorder extends AppCompatActivity {
             });
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocket.emit("leave recorder");
+        mSocket.off("start record", onRecord);
+    }
 }
