@@ -28,7 +28,6 @@ public class ConnectRecorder extends AppCompatActivity {
                 break;
         }
         if (!permissionToRecordAccepted ) finish();
-
     }
 
     @Override
@@ -42,12 +41,6 @@ public class ConnectRecorder extends AppCompatActivity {
         String deviceName = android.os.Build.MODEL;
         mSocket.emit("join recorder", deviceName);
         mSocket.on("start record", onRecord);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mSocket.off("start record", onRecord);
     }
 
     private void letsRecord() {
@@ -67,4 +60,10 @@ public class ConnectRecorder extends AppCompatActivity {
             });
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocket.off("start record", onRecord);
+    }
 }

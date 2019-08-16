@@ -22,7 +22,6 @@ public class ActivatePlayer extends AppCompatActivity {
 
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
-        //mSocket.emit("join player");
     }
 
     public void play(View v) {
