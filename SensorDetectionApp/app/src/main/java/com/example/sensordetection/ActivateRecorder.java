@@ -52,7 +52,6 @@ public class ActivateRecorder extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
 
@@ -166,7 +165,9 @@ public class ActivateRecorder extends AppCompatActivity {
             player = null;
         }
 
+
         mSocket.off("stop record", onRecStop);
+
     }
 
 

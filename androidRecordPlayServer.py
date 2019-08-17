@@ -32,6 +32,7 @@ def on_join_record(deviceName):
     emit('enable button', room='player')
     emit('update recorder number', recordPopulation, room='player')
 
+
     print(deviceName + ' recorder registered')
     print('total recorder: ', recordPopulation)
 
@@ -53,7 +54,6 @@ def on_join_player(deviceName):
     join_room(room)
     global playerPopulation
     playerPopulation += 1
-
     emit('update recorder number', recordPopulation, room='player')
 
     print(deviceName + ' registered as player')
@@ -103,6 +103,7 @@ def convert_file_to_wav(byteArr, deviceName):
     filePath = "recordings_" + timeStamp + '/' + fileName
     print(filePath)
     with open(filePath, "wb") as binary_file:
+
         # Write text or bytes to the file
         binary_file.write("".encode('utf8'))
         num_bytes_written = binary_file.write(byteArr)

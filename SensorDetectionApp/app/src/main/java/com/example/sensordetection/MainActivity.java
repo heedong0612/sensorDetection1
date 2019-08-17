@@ -3,6 +3,7 @@ package com.example.sensordetection;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         deviceName = fp_arr[4];
         deviceName = deviceName.substring(0, deviceName.indexOf(':'));
         deviceName = Build.MANUFACTURER + "\n" + deviceName;
+
         textView.setText(deviceName); //set text for text view
 
         if (android.os.Build.VERSION.SDK_INT > 9) //I think this has to do something with android version ?

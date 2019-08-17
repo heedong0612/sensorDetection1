@@ -19,6 +19,7 @@ public class ConnectPlayer extends AppCompatActivity {
     Button startCollection;
     TextView tv;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class ConnectPlayer extends AppCompatActivity {
         tv = findViewById(R.id.recNum);
         tv.setText("0");
 
+
         SensorApplication app = (SensorApplication) getApplication();
         mSocket = app.getSocket();
 
@@ -40,6 +42,7 @@ public class ConnectPlayer extends AppCompatActivity {
         mSocket.emit("ask for button");
 
         mSocket.on("update recorder number", updateRecNum);
+
 
         mSocket.on("enable button", enableButton);
         mSocket.on("disable button", disableButton);
@@ -80,6 +83,7 @@ public class ConnectPlayer extends AppCompatActivity {
             });
         }
     };
+
 
     private Emitter.Listener disableButton = new Emitter.Listener() {
         @Override
@@ -125,6 +129,7 @@ public class ConnectPlayer extends AppCompatActivity {
         mSocket.off("enable button", enableButton);
         mSocket.off("disable button", disableButton);
         mSocket.off("update recorder number", updateRecNum);
+
     }
 
 
